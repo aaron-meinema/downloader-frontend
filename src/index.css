@@ -20,11 +20,23 @@ code {
 
 .folderSelect {
   border-radius: 200px;
+  border-width: 3px;
   border-color: rgb(192, 192, 192);
   background-color: rgb(255, 255, 255);
   width: 400px;
   margin-top: 20px;
+  border-style: solid;
 }
+
+.folderSelect:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #6892ff;  /* custom focus ring */
+}
+
+option:hover {
+  background-color: green;
+}
+
 
 .folderContainer {
   display: flex;
@@ -32,4 +44,10 @@ code {
   align-items: center;
   justify-content: center;
   margin-top: 50px;
+}
+
+.loading {
+  margin-top: 20px;
+  width: 50px;
+  height: 50px;
 }

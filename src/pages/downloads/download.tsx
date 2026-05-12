@@ -5,6 +5,7 @@ import { FolderModel, selectFolders, selectFolderState } from "../../store/folde
 import { State } from "../../store/state"
 import { DownloadModel, selectDownloadError, selectDownloadState } from "../../store/download/downloadStore"
 import { submitDownload } from "../../store/download/downloadApi"
+import  logo  from "../../files/load.gif"
 
 export const Download = (): JSX.Element => {
   const dispatch = useAppDispatch()
@@ -55,8 +56,8 @@ export const Download = (): JSX.Element => {
     <div>
       <h2>Download Server</h2>
       {content}
-      {downloadState === State.loading && <p>Sending download request...</p>}
-      {downloadState === State.success && <p>Download queued successfully.</p>}
+      {downloadState === State.loading && <img src={logo} className="loading" alt="Loading...." />}
+      {downloadState === State.success && <p>Download successfull.</p>}
       {downloadState === State.failed && <p>Download failed: {downloadError}</p>}
     </div>
   )
