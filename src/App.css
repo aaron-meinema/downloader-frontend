@@ -26,6 +26,41 @@
   color: rgb(112, 76, 182);
 }
 
+.navbar {
+  background-color: #1c29ea;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  padding: 10px 0;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar li {
+  margin: 0 15px;
+  cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.navbar li:hover {
+  background-color: #e9ecef;
+}
+
+.navbar li.active {
+  background-color: #007bff;
+  color: white;
+}
+
 @keyframes App-logo-float {
   0% {
     transform: translateY(0);
