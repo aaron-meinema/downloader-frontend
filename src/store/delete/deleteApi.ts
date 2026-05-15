@@ -5,7 +5,7 @@ export const submitDelete = createAsyncThunk(
     "delete/submitDelete",
     async (deleteModel: DeleteModel, { rejectWithValue }) => {
         try {
-            const response = await fetch("http://localhost:8000/files/delete", {
+            const response = await fetch("http://localhost:8000/files", {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(deleteModel),
