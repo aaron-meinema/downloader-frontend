@@ -7,6 +7,7 @@ import  logo  from "../../files/load.gif"
 import { NamedDownloadModel, resetNamedDownloadState, selectNamedDownloadState } from "../../store/namedDownload/namedDownloadStore";
 import { submitNamedDownload } from "../../store/namedDownload/namedDownloadAPI";
 import { Page, setPage } from "../../store/page/pageStore";
+import { delay } from "../../utils/time";
 
 export const DownloadName = (): JSX.Element => {
   const dispatch = useAppDispatch()
@@ -15,6 +16,7 @@ export const DownloadName = (): JSX.Element => {
   const folderState = useAppSelector(selectFolderState)
   const namedDownloadState = useAppSelector(selectNamedDownloadState)
   const downloadCache = useAppSelector(selectDownloadCache)
+  const namedDownloadError = useAppSelector(selectNamedDownloadState)
 
     useEffect(() => {
     if(namedDownloadState === State.success) {
@@ -26,9 +28,6 @@ export const DownloadName = (): JSX.Element => {
     }
   }, [namedDownloadState, dispatch])
 
-  function delay(ms: number) {
-    return new Promise( resolve => setTimeout(resolve, ms) );
-  }
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -72,7 +71,7 @@ export const DownloadName = (): JSX.Element => {
       {content}
       {namedDownloadState === State.loading && <img src={logo} className="loading" alt="Loading...." />}
       {namedDownloadState === State.success && <p>Download successfull.</p>}
-      {namedDownloadState === State.failed && <p>Download failed.</p>}
+      {namedDownloadState === State.failed && <p>Download failed: {namedDownloadError}</p>}
     </div>
   )
 }
