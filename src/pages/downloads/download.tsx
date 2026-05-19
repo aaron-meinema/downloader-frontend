@@ -1,5 +1,5 @@
 import { fetchFolders } from "../../store/folder/folderApi"
-import { JSX, FormEvent, useEffect } from "react"
+import { JSX, useEffect, SubmitEvent } from "react"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import { FolderModel, selectFolders, selectFolderState } from "../../store/folder/folderStore"
 import { State } from "../../store/state"
@@ -29,7 +29,7 @@ export const Download = (): JSX.Element => {
   }, [downloadState, dispatch])
 
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault()
     const formData = new FormData(event.currentTarget)
     const downloadModel: DownloadModel = {
