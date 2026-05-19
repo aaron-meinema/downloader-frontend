@@ -4,10 +4,12 @@ import { setupListeners } from "@reduxjs/toolkit/query"
 import { folderSlice } from "../store/folder/folderStore"
 import { downloadSlice } from "../store/download/downloadStore"
 import { deleteSlice } from "../store/delete/deleteStore";
+import { pageSlice } from "../store/page/pageStore"
+import { namedDownloadSlice } from "../store/namedDownload/namedDownloadStore";
 
 // `combineSlices` automatically combines the reducers using
 // their `reducerPath`s, therefore we no longer need to call `combineReducers`.
-const rootReducer = combineSlices(folderSlice, downloadSlice, deleteSlice);
+const rootReducer = combineSlices(folderSlice, downloadSlice, namedDownloadSlice, deleteSlice, pageSlice);
 // Infer the `RootState` type from the root reducer
 export type RootState = ReturnType<typeof rootReducer>
 

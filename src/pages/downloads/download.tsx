@@ -1,24 +1,35 @@
 import { fetchFolders } from "../../store/folder/folderApi"
-import { JSX, FormEvent, useEffect } from "react"
+import { JSX, useEffect, SubmitEvent } from "react"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import { FolderModel, selectFolders, selectFolderState } from "../../store/folder/folderStore"
 import { State } from "../../store/state"
-import { DownloadModel, selectDownloadError, selectDownloadState } from "../../store/download/downloadStore"
+import { DownloadModel, resetDownloadState, selectDownloadError, selectDownloadState, setDownloadCache } from "../../store/download/downloadStore"
 import { submitDownload } from "../../store/download/downloadApi"
 import  logo  from "../../files/load.gif"
+import { Page, setPage } from "../../store/page/pageStore";
+import { delay } from "../../utils/time";
 
 export const Download = (): JSX.Element => {
   const dispatch = useAppDispatch()
-  useEffect(() => {
-    dispatch(fetchFolders())
-  }, [dispatch])
 
-  const folders = useAppSelector(selectFolders)
-  const folderState = useAppSelector(selectFolderState)
   const downloadState = useAppSelector(selectDownloadState)
   const downloadError = useAppSelector(selectDownloadError)
+  const folders = useAppSelector(selectFolders)
+  const folderState = useAppSelector(selectFolderState)
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    if(downloadState === State.failed) {
+      dispatch(setPage(Page.downloadName))
+    } else if (downloadState === State.success) {
+      delay(1000).then(() => {
+        dispatch(resetDownloadState());
+      });
+    }
+    dispatch(fetchFolders())
+  }, [downloadState, dispatch])
+
+
+  const handleSubmit = (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault()
     const formData = new FormData(event.currentTarget)
     const downloadModel: DownloadModel = {
@@ -26,7 +37,8 @@ export const Download = (): JSX.Element => {
       path: formData.get("folder") as string,
     }
 
-    dispatch(submitDownload(downloadModel))
+    dispatch(setDownloadCache(downloadModel));
+    dispatch(submitDownload(downloadModel));
   }
 
   let content

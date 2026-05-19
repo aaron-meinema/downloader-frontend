@@ -11,12 +11,14 @@ export type DownloadState = {
     download?: DownloadModel;
     state: State;
     error?: string;
+    cache?: DownloadModel;
 }
 
 const initialState: DownloadState = {
     download: undefined,
     state: State.idle,
     error: undefined,
+    cache: undefined,
 }
 
 export const downloadSlice = createSlice({
@@ -28,7 +30,11 @@ export const downloadSlice = createSlice({
             state.download = undefined;
             state.state = State.idle;
             state.error = undefined;
+            state.cache = undefined;
         },
+        setDownloadCache: (state, action) => {
+            state.cache = action.payload;
+        }
     },
 
     extraReducers: (builder) => {
@@ -51,9 +57,10 @@ export const downloadSlice = createSlice({
         selectDownloadState: (state: DownloadState) => state.state,
         selectCurrentDownload: (state: DownloadState) => state.download,
         selectDownloadError: (state: DownloadState) => state.error,
+        selectDownloadCache: (state: DownloadState) => state.cache,
     }
 });
 
-export const { resetDownloadState } = downloadSlice.actions;
+export const { resetDownloadState, setDownloadCache } = downloadSlice.actions;
 
-export const { selectDownloadState, selectCurrentDownload, selectDownloadError } = downloadSlice.selectors;
+export const { selectDownloadState, selectCurrentDownload, selectDownloadError, selectDownloadCache } = downloadSlice.selectors;
