@@ -1,24 +1,28 @@
 import "./App.css"
-import { useState } from "react"
 import { Download } from "./pages/downloads/download"
 import { Delete } from "./pages/delete/delete"
 import logo from "./Jellyfin.svg.png"
+import { Page, selectCurrentPage, setPage } from "./store/page/pageStore";
+import { useAppDispatch, useAppSelector } from "./app/hooks";
+import { DownloadName } from "./pages/downloads/downloadName";
 
 export const App = () => {
-  const [currentPage, setCurrentPage] = useState<'download' | 'delete'>('download')
+  const dispatch = useAppDispatch();
+  const page = useAppSelector(selectCurrentPage);
 
   return (
     <div className="App">
       <nav className="navbar">
         <ul>
-          <li className={`navitem ${currentPage === 'download' ? 'active' : ''}`} onClick={() => { setCurrentPage('download') }}>Download</li>
-          <li className={`navitem ${currentPage === 'delete' ? 'active' : ''}`} onClick={() => { setCurrentPage('delete') }}>Delete</li>
+          <li className={`navitem ${page === Page.downloads ? 'active' : ''}`} onClick={() => { dispatch(setPage(Page.downloads)) }}>Download</li>
+          <li className={`navitem ${page === Page.delete ? 'active' : ''}`} onClick={() => { dispatch(setPage(Page.delete)) }}>Delete</li>
         </ul>
       </nav>
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        {currentPage === 'download' && <Download />}
-        {currentPage === 'delete' && <Delete />}
+        {page === Page.downloads && <Download />}
+        {page === Page.downloadName && <DownloadName />}
+        {page === Page.delete && <Delete />}
       </header>
     </div>
   )
