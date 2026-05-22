@@ -4,7 +4,7 @@ import { FolderModel, selectFolders, selectFolderState } from "../../store/folde
 import { State } from "../../store/state"
 import { resetDownloadState, selectDownloadCache } from "../../store/download/downloadStore"
 import  logo  from "../../files/load.gif"
-import { NamedDownloadModel, resetNamedDownloadState, selectNamedDownloadState } from "../../store/namedDownload/namedDownloadStore";
+import { NamedDownloadModel, resetNamedDownloadState, selectNamedDownloadError, selectNamedDownloadState } from "../../store/namedDownload/namedDownloadStore";
 import { submitNamedDownload } from "../../store/namedDownload/namedDownloadAPI";
 import { Page, setPage } from "../../store/page/pageStore";
 import { delay } from "../../utils/time";
@@ -16,7 +16,7 @@ export const DownloadName = (): JSX.Element => {
   const folderState = useAppSelector(selectFolderState)
   const namedDownloadState = useAppSelector(selectNamedDownloadState)
   const downloadCache = useAppSelector(selectDownloadCache)
-  const namedDownloadError = useAppSelector(selectNamedDownloadState)
+  const namedDownloadError = useAppSelector(selectNamedDownloadError)
 
     useEffect(() => {
     if(namedDownloadState === State.success) {
