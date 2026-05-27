@@ -11,14 +11,25 @@ export const submitDownload = createAsyncThunk(
                 body: JSON.stringify(downloadModel),
             });
 
+            const responseBody = await response.json().catch(() => null);
+
             if (!response.ok) {
-                const errorText = await response.text();
-                throw new Error(errorText || "Network response was not ok");
+                const errorText = responseBody?.message || responseBody || "Network response was not ok";
+                return rejectWithValue({
+                    message: typeof errorText === "string" ? errorText : JSON.stringify(errorText),
+                    status: response.status,
+                });
             }
 
-            return await response.json();
+            return {
+                data: responseBody,
+                status: response.status,
+            };
         } catch (error) {
-            return rejectWithValue((error as Error).message);
+            return rejectWithValue({
+                message: (error as Error).message,
+                status: undefined,
+            });
         }
     }
 );

@@ -3,7 +3,7 @@ import { JSX, useEffect, SubmitEvent } from "react"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import { FolderModel, selectFolders, selectFolderState } from "../../store/folder/folderStore"
 import { State } from "../../store/state"
-import { DownloadModel, resetDownloadState, selectDownloadError, selectDownloadState, setDownloadCache } from "../../store/download/downloadStore"
+import { DownloadModel, resetDownloadState, selectDownloadError, selectDownloadHttpStatus, selectDownloadState, setDownloadCache } from "../../store/download/downloadStore"
 import { submitDownload } from "../../store/download/downloadApi"
 import  logo  from "../../files/load.gif"
 import { Page, setPage } from "../../store/page/pageStore";
@@ -14,11 +14,12 @@ export const Download = (): JSX.Element => {
 
   const downloadState = useAppSelector(selectDownloadState)
   const downloadError = useAppSelector(selectDownloadError)
+  const downloadStatus = useAppSelector(selectDownloadHttpStatus)
   const folders = useAppSelector(selectFolders)
   const folderState = useAppSelector(selectFolderState)
 
   useEffect(() => {
-    if(downloadState === State.failed) {
+    if(downloadState === State.failed && downloadStatus === 449) {
       dispatch(setPage(Page.downloadName))
     } else if (downloadState === State.success) {
       delay(1000).then(() => {
